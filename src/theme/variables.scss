@@ -1,0 +1,36 @@
+// Premium Designer Color System
+:root {
+  /** Primary: Modern Indigo **/
+  --ion-color-primary: #4f46e5;
+  --ion-color-primary-rgb: 79, 70, 229;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #4338ca;
+  --ion-color-primary-tint: #6366f1;
+
+  /** Secondary: Teal Emerald **/
+  --ion-color-secondary: #0d9488;
+  --ion-color-secondary-rgb: 13, 148, 136;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #0f766e;
+  --ion-color-secondary-tint: #14b8a6;
+
+  /** Tertiary: Soft Violet **/
+  --ion-color-tertiary: #7c3aed;
+  --ion-color-tertiary-rgb: 124, 58, 237;
+  --ion-color-tertiary-contrast: #ffffff;
+
+  /** Status Tones **/
+  --ion-color-success: #10b981;
+  --ion-color-warning: #f59e0b;
+  --ion-color-danger: #f43f5e;
+
+  /** Neutral Slate Surface **/
+  --ion-color-dark: #0f172a;
+  --ion-color-medium: #64748b;
+  --ion-color-light: #f8fafc;
+
+  --ion-font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ion-background-color: #f8fafc;
+}

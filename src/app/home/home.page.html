@@ -1,0 +1,77 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="header-brand" slot="start">
+      <div class="brand-icon">
+        <ion-icon name="cube-outline"></ion-icon>
+      </div>
+      <span class="brand-title">StockFlow</span>
+    </div>
+
+    <ion-chip slot="end" class="lang-chip" (click)="toggleLanguage()">
+      <ion-icon name="globe-outline"></ion-icon>
+      <ion-label>{{ currentLanguage }}</ion-label>
+    </ion-chip>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding page-content">
+  <div class="main-container">
+    <!-- Hero Banner Card -->
+    <div class="hero-card">
+      <div class="hero-badge">
+        <ion-icon name="sparkles-outline"></ion-icon> Sistema de Inventario
+      </div>
+      <h1>Control de Productos & Stock</h1>
+      <p>Administra tu catálogo de forma ágil, organizada e intuitiva.</p>
+    </div>
+
+    <!-- Quick Stats Bar -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <span class="stat-value">24</span>
+        <span class="stat-title">Productos</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-value">4</span>
+        <span class="stat-title">Categorías</span>
+      </div>
+      <div class="stat-box warning">
+        <span class="stat-value">2</span>
+        <span class="stat-title">Poco Stock</span>
+      </div>
+    </div>
+
+    <!-- Navigation Cards -->
+    <div class="section-header">
+      <h2>Módulos del Sistema</h2>
+    </div>
+
+    <div class="nav-grid">
+      <div class="designer-card primary-card" routerLink="/products">
+        <div class="card-icon-wrapper primary-bg">
+          <ion-icon name="list-outline"></ion-icon>
+        </div>
+        <div class="card-details">
+          <h3>Catálogo de Productos</h3>
+          <p>Explora la lista completa, realiza búsquedas y filtra por categoría.</p>
+        </div>
+        <div class="card-arrow">
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </div>
+      </div>
+
+      <div class="designer-card secondary-card" routerLink="/product-form">
+        <div class="card-icon-wrapper secondary-bg">
+          <ion-icon name="add-circle-outline"></ion-icon>
+        </div>
+        <div class="card-details">
+          <h3>Registrar Producto</h3>
+          <p>Añade nuevos elementos al inventario ingresando sus datos.</p>
+        </div>
+        <div class="card-arrow">
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
