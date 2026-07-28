@@ -1,0 +1,89 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Catálogo de Productos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding page-content">
+  <div class="main-container">
+    <!-- Search & Filter Controls -->
+    <div class="controls-wrapper">
+      <div class="search-box">
+        <ion-searchbar 
+          [(ngModel)]="searchTerm" 
+          placeholder="Buscar por nombre o categoría..." 
+          animated="true"
+          show-clear-button="always"
+          class="designer-searchbar">
+        </ion-searchbar>
+      </div>
+
+      <div class="category-pills">
+        <button [class.active]="selectedCategory === 'all'" (click)="selectedCategory = 'all'">Todos</button>
+        <button [class.active]="selectedCategory === 'Electrónica'" (click)="selectedCategory = 'Electrónica'">Electrónica</button>
+        <button [class.active]="selectedCategory === 'Accesorios'" (click)="selectedCategory = 'Accesorios'">Accesorios</button>
+        <button [class.active]="selectedCategory === 'Mobiliario'" (click)="selectedCategory = 'Mobiliario'">Mobiliario</button>
+      </div>
+    </div>
+
+    <!-- Results count bar -->
+    <div class="results-bar">
+      <span><strong>{{ filteredProducts.length }}</strong> {{ filteredProducts.length === 1 ? 'producto en inventario' : 'productos en inventario' }}</span>
+    </div>
+
+    <!-- Product Cards Grid -->
+    <div class="products-grid">
+      <div *ngFor="let product of filteredProducts" class="product-card">
+        <div class="card-header">
+          <span class="category-badge">{{ product.category }}</span>
+          <span class="status-pill" [ngClass]="product.status">
+            {{ getStatusLabel(product.status) }}
+          </span>
+        </div>
+
+        <div class="card-body">
+          <h3 class="product-title">{{ product.name }}</h3>
+          <p class="product-description">{{ product.description }}</p>
+        </div>
+
+        <div class="card-footer">
+          <div class="price-box">
+            <span class="box-label">Precio</span>
+            <span class="price-value">${{ product.price | number:'1.2-2' }}</span>
+          </div>
+
+          <div class="stock-box">
+            <span class="box-label">Stock</span>
+            <span class="stock-value" [class.low]="product.stock < 5">{{ product.stock }} un.</span>
+          </div>
+
+          <div class="card-actions">
+            <button class="action-btn edit" [routerLink]="['/product-form', product.id]" title="Editar">
+              <ion-icon name="create-outline"></ion-icon>
+            </button>
+            <button class="action-btn delete" title="Eliminar">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="filteredProducts.length === 0" class="empty-state">
+        <ion-icon name="search-outline" class="empty-icon"></ion-icon>
+        <h3>No hay coincidencias</h3>
+        <p>Prueba con otra palabra clave o agrega un nuevo producto.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Action Button to Add -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="designer-fab">
+    <ion-fab-button routerLink="/product-form">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
