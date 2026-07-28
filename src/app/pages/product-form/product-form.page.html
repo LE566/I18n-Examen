@@ -18,10 +18,11 @@
         <p>Ingresa la información requerida para la gestión del catálogo.</p>
       </div>
 
-      <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+      <form (ngSubmit)="onSubmit(productForm)" #productForm="ngForm" novalidate>
         <div class="input-stack">
+          <!-- Nombre -->
           <div class="form-field">
-            <ion-item lines="none" class="designer-input">
+            <ion-item lines="none" class="designer-input" [class.invalid-field]="nameInput.invalid && (nameInput.dirty || nameInput.touched)">
               <ion-input
                 label="Nombre del producto"
                 labelPlacement="stacked"
@@ -29,73 +30,101 @@
                 placeholder="Ej. Laptop Pro 15''"
                 [(ngModel)]="product.name"
                 name="name"
+                #nameInput="ngModel"
                 required>
               </ion-input>
             </ion-item>
+            <span *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)" class="error-message">
+              El nombre del producto es obligatorio.
+            </span>
           </div>
 
+          <!-- Categoría -->
           <div class="form-field">
-            <ion-item lines="none" class="designer-input">
+            <ion-item lines="none" class="designer-input" [class.invalid-field]="categoryInput.invalid && (categoryInput.dirty || categoryInput.touched)">
               <ion-select
                 label="Categoría"
                 labelPlacement="stacked"
                 placeholder="Selecciona una opción"
                 [(ngModel)]="product.category"
                 name="category"
+                #categoryInput="ngModel"
                 required>
                 <ion-select-option *ngFor="let cat of categories" [value]="cat">
                   {{ cat }}
                 </ion-select-option>
               </ion-select>
             </ion-item>
+            <span *ngIf="categoryInput.invalid && (categoryInput.dirty || categoryInput.touched)" class="error-message">
+              La categoría es obligatoria.
+            </span>
           </div>
 
+          <!-- Fila de Precio y Stock -->
           <div class="form-row">
+            <!-- Precio -->
             <div class="form-field col">
-              <ion-item lines="none" class="designer-input">
+              <ion-item lines="none" class="designer-input" [class.invalid-field]="priceInput.invalid && (priceInput.dirty || priceInput.touched)">
                 <ion-input
                   label="Precio ($ USD)"
                   labelPlacement="stacked"
                   type="number"
                   step="0.01"
+                  min="0.01"
                   placeholder="0.00"
                   [(ngModel)]="product.price"
                   name="price"
+                  #priceInput="ngModel"
                   required>
                 </ion-input>
               </ion-item>
+              <span *ngIf="priceInput.invalid && (priceInput.dirty || priceInput.touched)" class="error-message">
+                El precio debe ser mayor a 0.
+              </span>
             </div>
 
+            <!-- Stock -->
             <div class="form-field col">
-              <ion-item lines="none" class="designer-input">
+              <ion-item lines="none" class="designer-input" [class.invalid-field]="stockInput.invalid && (stockInput.dirty || stockInput.touched)">
                 <ion-input
                   label="Stock (Unidades)"
                   labelPlacement="stacked"
                   type="number"
+                  min="0"
                   placeholder="0"
                   [(ngModel)]="product.stock"
                   name="stock"
+                  #stockInput="ngModel"
                   required>
                 </ion-input>
               </ion-item>
+              <span *ngIf="stockInput.invalid && (stockInput.dirty || stockInput.touched)" class="error-message">
+                El stock no puede ser negativo.
+              </span>
             </div>
           </div>
 
+          <!-- Estado -->
           <div class="form-field">
-            <ion-item lines="none" class="designer-input">
+            <ion-item lines="none" class="designer-input" [class.invalid-field]="statusInput.invalid && (statusInput.dirty || statusInput.touched)">
               <ion-select
                 label="Estado de disponibilidad"
                 labelPlacement="stacked"
                 [(ngModel)]="product.status"
                 name="status"
+                #statusInput="ngModel"
                 required>
                 <ion-select-option value="available">Disponible</ion-select-option>
                 <ion-select-option value="low_stock">Poco Stock</ion-select-option>
                 <ion-select-option value="out_of_stock">Agotado</ion-select-option>
               </ion-select>
             </ion-item>
+            <span *ngIf="statusInput.invalid && (statusInput.dirty || statusInput.touched)" class="error-message">
+              El estado es obligatorio.
+            </span>
           </div>
 
+          <!-- Descripción -->
           <div class="form-field">
             <ion-item lines="none" class="designer-input">
               <ion-textarea

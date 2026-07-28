@@ -95,7 +95,13 @@ export class ProductFormPage implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(form: any) {
+    if (form.invalid) {
+      Object.keys(form.controls).forEach(key => {
+        form.controls[key].markAsTouched();
+      });
+      return;
+    }
     console.log('Formulario enviado:', this.product);
     this.router.navigate(['/products']);
   }
