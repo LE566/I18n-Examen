@@ -5,11 +5,7 @@ on:
     branches:
       - main
       - LEBranch
-      - manny-goat
-      - R2D2
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,8 +17,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy Application
+  build:
+    name: Build Ionic App
     runs-on: ubuntu-latest
 
     steps:
@@ -46,6 +42,15 @@ jobs:
         with:
           path: www/
 
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
