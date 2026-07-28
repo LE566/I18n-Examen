@@ -1,0 +1,84 @@
+{
+  "APP": {
+    "NAME": "StockFlow"
+  },
+  "COMMON": {
+    "SEARCH_PLACEHOLDER": "Search by name or category...",
+    "ALL": "All",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "CANCEL": "Cancel",
+    "ACCEPT": "Accept",
+    "SUCCESS": "Success",
+    "ERROR": "Error",
+    "CONFIRM": "Confirm",
+    "CONFIRM_DELETE_TITLE": "Confirm Deletion",
+    "CONFIRM_DELETE_MSG": "Are you sure you want to delete \"{{name}}\"?",
+    "DELETE_SUCCESS": "Product removed from inventory."
+  },
+  "HOME": {
+    "HERO_BADGE": "Inventory System",
+    "HERO_TITLE": "Products & Stock Control",
+    "HERO_DESC": "Manage your catalog in an agile, organized, and intuitive way.",
+    "STATS_PRODUCTS": "Products",
+    "STATS_CATEGORIES": "Categories",
+    "STATS_LOW_STOCK": "Low Stock",
+    "MODULES_TITLE": "System Modules",
+    "CATALOG_TITLE": "Product Catalog",
+    "CATALOG_DESC": "Explore the full list, search, and filter by category.",
+    "ADD_TITLE": "Register Product",
+    "ADD_DESC": "Add new items to inventory by entering their details."
+  },
+  "PRODUCT_LIST": {
+    "TITLE": "Product Catalog",
+    "COUNT_SINGLE": "product in inventory",
+    "COUNT_MULTIPLE": "products in inventory",
+    "PRICE_LABEL": "Price",
+    "STOCK_LABEL": "Stock",
+    "UNIT": "units",
+    "EMPTY_TITLE": "No matches found",
+    "EMPTY_DESC": "Try another keyword or add a new product."
+  },
+  "PRODUCT_FORM": {
+    "TITLE_NEW": "New Product",
+    "TITLE_EDIT": "Edit Product",
+    "HEADER_NEW": "Register Product",
+    "HEADER_EDIT": "Modify Item",
+    "HEADER_SUBTITLE": "Enter the required information for catalog management.",
+    "NAME_LABEL": "Product Name",
+    "NAME_PLACEHOLDER": "E.g. Laptop Pro 15''",
+    "CATEGORY_LABEL": "Category",
+    "CATEGORY_PLACEHOLDER": "Select an option",
+    "PRICE_LABEL": "Price ($ USD)",
+    "STOCK_LABEL": "Stock (Units)",
+    "STATUS_LABEL": "Availability Status",
+    "DESCRIPTION_LABEL": "Detailed Description",
+    "DESCRIPTION_PLACEHOLDER": "Optional features...",
+    "BTN_SAVE": "Save Product",
+    "BTN_UPDATE": "Update Product",
+    "BTN_CANCEL": "Cancel",
+    "SUCCESS_CREATE": "Product saved successfully.",
+    "SUCCESS_UPDATE": "Product updated successfully.",
+    "ERROR_NOT_FOUND": "Product does not exist in catalog.",
+    "ERROR_SAVE": "An error occurred while saving the product."
+  },
+  "CATEGORIES": {
+    "ELECTRONICS": "Electronics",
+    "ACCESSORIES": "Accessories",
+    "FURNITURE": "Furniture",
+    "TOOLS": "Tools",
+    "OTHER": "Others"
+  },
+  "STATUS": {
+    "AVAILABLE": "Available",
+    "LOW_STOCK": "Low Stock",
+    "OUT_OF_STOCK": "Out of Stock"
+  },
+  "VALIDATIONS": {
+    "NAME_REQUIRED": "Product name is required.",
+    "CATEGORY_REQUIRED": "Category is required.",
+    "PRICE_INVALID": "Price must be greater than 0.",
+    "STOCK_INVALID": "Stock cannot be negative.",
+    "STATUS_REQUIRED": "Status is required."
+  }
+}

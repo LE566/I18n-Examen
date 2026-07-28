@@ -1,0 +1,84 @@
+{
+  "APP": {
+    "NAME": "StockFlow"
+  },
+  "COMMON": {
+    "SEARCH_PLACEHOLDER": "Buscar por nombre o categoría...",
+    "ALL": "Todos",
+    "EDIT": "Editar",
+    "DELETE": "Eliminar",
+    "CANCEL": "Cancelar",
+    "ACCEPT": "Aceptar",
+    "SUCCESS": "Éxito",
+    "ERROR": "Error",
+    "CONFIRM": "Confirmar",
+    "CONFIRM_DELETE_TITLE": "Confirmar eliminación",
+    "CONFIRM_DELETE_MSG": "¿Estás seguro de que deseas eliminar \"{{name}}\"?",
+    "DELETE_SUCCESS": "Producto eliminado del inventario."
+  },
+  "HOME": {
+    "HERO_BADGE": "Sistema de Inventario",
+    "HERO_TITLE": "Control de Productos & Stock",
+    "HERO_DESC": "Administra tu catálogo de forma ágil, organizada e intuitiva.",
+    "STATS_PRODUCTS": "Productos",
+    "STATS_CATEGORIES": "Categorías",
+    "STATS_LOW_STOCK": "Poco Stock",
+    "MODULES_TITLE": "Módulos del Sistema",
+    "CATALOG_TITLE": "Catálogo de Productos",
+    "CATALOG_DESC": "Explora la lista completa, realiza búsquedas y filtra por categoría.",
+    "ADD_TITLE": "Registrar Producto",
+    "ADD_DESC": "Añade nuevos elementos al inventario ingresando sus datos."
+  },
+  "PRODUCT_LIST": {
+    "TITLE": "Catálogo de Productos",
+    "COUNT_SINGLE": "producto en inventario",
+    "COUNT_MULTIPLE": "productos en inventario",
+    "PRICE_LABEL": "Precio",
+    "STOCK_LABEL": "Stock",
+    "UNIT": "un.",
+    "EMPTY_TITLE": "No hay coincidencias",
+    "EMPTY_DESC": "Prueba con otra palabra clave o agrega un nuevo producto."
+  },
+  "PRODUCT_FORM": {
+    "TITLE_NEW": "Nuevo Producto",
+    "TITLE_EDIT": "Editar Producto",
+    "HEADER_NEW": "Registrar Producto",
+    "HEADER_EDIT": "Modificar Registro",
+    "HEADER_SUBTITLE": "Ingresa la información requerida para la gestión del catálogo.",
+    "NAME_LABEL": "Nombre del producto",
+    "NAME_PLACEHOLDER": "Ej. Laptop Pro 15''",
+    "CATEGORY_LABEL": "Categoría",
+    "CATEGORY_PLACEHOLDER": "Selecciona una opción",
+    "PRICE_LABEL": "Precio ($ USD)",
+    "STOCK_LABEL": "Stock (Unidades)",
+    "STATUS_LABEL": "Estado de disponibilidad",
+    "DESCRIPTION_LABEL": "Descripción detallada",
+    "DESCRIPTION_PLACEHOLDER": "Características opcionales...",
+    "BTN_SAVE": "Guardar Producto",
+    "BTN_UPDATE": "Actualizar Producto",
+    "BTN_CANCEL": "Cancelar",
+    "SUCCESS_CREATE": "Producto guardado con éxito.",
+    "SUCCESS_UPDATE": "Producto actualizado con éxito.",
+    "ERROR_NOT_FOUND": "El producto no existe en el catálogo.",
+    "ERROR_SAVE": "Ocurrió un error al intentar guardar el producto."
+  },
+  "CATEGORIES": {
+    "ELECTRONICS": "Electrónica",
+    "ACCESSORIES": "Accesorios",
+    "FURNITURE": "Mobiliario",
+    "TOOLS": "Herramientas",
+    "OTHER": "Otros"
+  },
+  "STATUS": {
+    "AVAILABLE": "Disponible",
+    "LOW_STOCK": "Poco Stock",
+    "OUT_OF_STOCK": "Agotado"
+  },
+  "VALIDATIONS": {
+    "NAME_REQUIRED": "El nombre del producto es obligatorio.",
+    "CATEGORY_REQUIRED": "La categoría es obligatoria.",
+    "PRICE_INVALID": "El precio debe ser mayor a 0.",
+    "STOCK_INVALID": "El stock no puede ser negativo.",
+    "STATUS_REQUIRED": "El estado es obligatorio."
+  }
+}
