@@ -36,6 +36,11 @@ jobs:
       - name: Build Ionic application
         run: npx ng build --base-href /I18n-Examen/
 
+      - name: Configure GitHub Pages routing (.nojekyll & 404.html)
+        run: |
+          touch www/.nojekyll
+          cp www/index.html www/404.html
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
