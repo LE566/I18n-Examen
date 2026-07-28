@@ -34,7 +34,7 @@ jobs:
         run: npm install
 
       - name: Build Ionic application
-        run: npm run build
+        run: npx ng build --base-href /I18n-Examen/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
