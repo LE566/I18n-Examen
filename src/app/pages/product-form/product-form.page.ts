@@ -18,11 +18,14 @@ import {
   IonBackButton,
   IonCard,
   IonCardContent,
-  IonList
+  IonList,
+  AlertController,
+  ToastController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { saveOutline, arrowBackOutline, checkmarkCircleOutline, alertCircleOutline, cubeOutline } from 'ionicons/icons';
 import { Product } from '../../models/product.model';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-product-form',
@@ -68,7 +71,10 @@ export class ProductFormPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private productService: ProductService,
+    private toastController: ToastController,
+    private alertController: AlertController
   ) {
     addIcons({
       saveOutline,
@@ -83,26 +89,53 @@ export class ProductFormPage implements OnInit {
     this.productId = this.route.snapshot.paramMap.get('id');
     if (this.productId) {
       this.isEditMode = true;
-      this.product = {
-        id: this.productId,
-        name: 'Teclado Mecánico RGB',
-        category: 'Accesorios',
-        price: 89.50,
-        stock: 4,
-        description: 'Teclado mecánico con luces RGB personalizables.',
-        status: 'low_stock'
-      };
+      const existingProduct = this.productService.getProductById(this.productId);
+      if (existingProduct) {
+        this.product = { ...existingProduct };
+      } else {
+        this.showErrorAlert('El producto no existe en el catálogo.');
+        this.router.navigate(['/products']);
+      }
     }
   }
 
-  onSubmit(form: any) {
+  async onSubmit(form: any) {
     if (form.invalid) {
       Object.keys(form.controls).forEach(key => {
         form.controls[key].markAsTouched();
       });
       return;
     }
-    console.log('Formulario enviado:', this.product);
-    this.router.navigate(['/products']);
+
+    try {
+      this.productService.saveProduct(this.product);
+      await this.showSuccessToast(
+        this.isEditMode 
+          ? 'Producto actualizado con éxito.' 
+          : 'Producto guardado con éxito.'
+      );
+      this.router.navigate(['/products']);
+    } catch (error) {
+      await this.showErrorAlert('Ocurrió un error al intentar guardar el producto.');
+    }
+  }
+
+  private async showSuccessToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color: 'success',
+      position: 'bottom'
+    });
+    await toast.present();
+  }
+
+  private async showErrorAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Error',
+      message,
+      buttons: ['Aceptar']
+    });
+    await alert.present();
   }
 }

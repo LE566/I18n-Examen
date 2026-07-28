@@ -21,11 +21,14 @@ import {
   IonSearchbar,
   IonChip,
   IonButtons,
-  IonBackButton
+  IonBackButton,
+  AlertController,
+  ToastController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline, createOutline, trashOutline, searchOutline, cubeOutline, filterOutline, checkmarkCircleOutline, warningOutline, alertCircleOutline } from 'ionicons/icons';
 import { Product } from '../../models/product.model';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -60,47 +63,13 @@ import { Product } from '../../models/product.model';
 export class ProductListPage implements OnInit {
   searchTerm: string = '';
   selectedCategory: string = 'all';
+  products: Product[] = [];
 
-  products: Product[] = [
-    {
-      id: '1',
-      name: 'Laptop Pro 15"',
-      category: 'Electrónica',
-      price: 1299.99,
-      stock: 12,
-      description: 'Computadora portátil de alto rendimiento con procesador de última generación.',
-      status: 'available'
-    },
-    {
-      id: '2',
-      name: 'Teclado Mecánico RGB',
-      category: 'Accesorios',
-      price: 89.50,
-      stock: 4,
-      description: 'Teclado mecánico con luces RGB personalizables y switches silenciosos.',
-      status: 'low_stock'
-    },
-    {
-      id: '3',
-      name: 'Monitor UltraWide 34"',
-      category: 'Electrónica',
-      price: 450.00,
-      stock: 0,
-      description: 'Monitor curvo alta resolución ideal para productividad y diseño.',
-      status: 'out_of_stock'
-    },
-    {
-      id: '4',
-      name: 'Silla Ergonómica Pro',
-      category: 'Mobiliario',
-      price: 249.99,
-      stock: 8,
-      description: 'Silla ergonómica para oficina con soporte lumbar ajustable.',
-      status: 'available'
-    }
-  ];
-
-  constructor() {
+  constructor(
+    private productService: ProductService,
+    private alertController: AlertController,
+    private toastController: ToastController
+  ) {
     addIcons({
       addOutline,
       createOutline,
@@ -114,7 +83,64 @@ export class ProductListPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loadProducts();
+  }
+
+  ionViewWillEnter() {
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    this.products = this.productService.getProducts();
+  }
+
+  async confirmDelete(product: Product) {
+    if (!product.id) return;
+
+    const alert = await this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: `¿Estás seguro de que deseas eliminar el producto "${product.name}"?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            this.deleteProduct(product.id!);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async deleteProduct(id: string) {
+    try {
+      this.productService.deleteProduct(id);
+      this.loadProducts();
+
+      const toast = await this.toastController.create({
+        message: 'Producto eliminado con éxito.',
+        duration: 2000,
+        color: 'success',
+        position: 'bottom'
+      });
+      await toast.present();
+    } catch (error) {
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Ocurrió un error al intentar eliminar el producto.',
+        buttons: ['Aceptar']
+      });
+      await alert.present();
+    }
+  }
 
   get filteredProducts(): Product[] {
     return this.products.filter(product => {

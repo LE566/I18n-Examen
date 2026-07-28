@@ -64,7 +64,7 @@
             <button class="action-btn edit" [routerLink]="['/product-form', product.id]" title="Editar">
               <ion-icon name="create-outline"></ion-icon>
             </button>
-            <button class="action-btn delete" title="Eliminar">
+            <button class="action-btn delete" (click)="confirmDelete(product)" title="Eliminar">
               <ion-icon name="trash-outline"></ion-icon>
             </button>
           </div>
