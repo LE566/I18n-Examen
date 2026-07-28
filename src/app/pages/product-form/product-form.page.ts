@@ -16,14 +16,18 @@ import {
   IonIcon,
   IonButtons,
   IonBackButton,
+  IonChip,
+  IonLabel,
   AlertController,
   ToastController,
   NavController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { saveOutline, arrowBackOutline, checkmarkCircleOutline, alertCircleOutline, cubeOutline } from 'ionicons/icons';
+import { saveOutline, arrowBackOutline, checkmarkCircleOutline, alertCircleOutline, cubeOutline, globeOutline } from 'ionicons/icons';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
+import { LanguageService } from '../../services/language.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-product-form',
@@ -45,7 +49,10 @@ import { ProductService } from '../../services/product.service';
     IonButton,
     IonIcon,
     IonButtons,
-    IonBackButton
+    IonBackButton,
+    IonChip,
+    IonLabel,
+    TranslatePipe
   ]
 })
 export class ProductFormPage implements OnInit {
@@ -68,6 +75,7 @@ export class ProductFormPage implements OnInit {
     private router: Router,
     private navController: NavController,
     private productService: ProductService,
+    public languageService: LanguageService,
     private toastController: ToastController,
     private alertController: AlertController
   ) {
@@ -76,7 +84,8 @@ export class ProductFormPage implements OnInit {
       arrowBackOutline,
       checkmarkCircleOutline,
       alertCircleOutline,
-      cubeOutline
+      cubeOutline,
+      globeOutline
     });
   }
 
@@ -88,10 +97,18 @@ export class ProductFormPage implements OnInit {
       if (existingProduct) {
         this.product = { ...existingProduct };
       } else {
-        this.showErrorAlert('El producto no existe en el catálogo.');
+        this.showErrorAlert(this.languageService.translate('PRODUCT_FORM.ERROR_NOT_FOUND'));
         this.navController.navigateBack('/products');
       }
     }
+  }
+
+  toggleLanguage() {
+    this.languageService.toggleLanguage();
+  }
+
+  get currentLanguage(): string {
+    return this.languageService.currentLang;
   }
 
   async onSubmit(form: any) {
@@ -105,13 +122,15 @@ export class ProductFormPage implements OnInit {
     try {
       this.productService.saveProduct(this.product);
       await this.showSuccessToast(
-        this.isEditMode 
-          ? 'Producto actualizado con éxito.' 
-          : 'Producto guardado con éxito.'
+        this.languageService.translate(
+          this.isEditMode 
+            ? 'PRODUCT_FORM.SUCCESS_UPDATE' 
+            : 'PRODUCT_FORM.SUCCESS_CREATE'
+        )
       );
       this.navController.navigateBack('/products');
     } catch (error) {
-      await this.showErrorAlert('Ocurrió un error al intentar guardar el producto.');
+      await this.showErrorAlert(this.languageService.translate('PRODUCT_FORM.ERROR_SAVE'));
     }
   }
 
@@ -131,10 +150,21 @@ export class ProductFormPage implements OnInit {
 
   private async showErrorAlert(message: string) {
     const alert = await this.alertController.create({
-      header: 'Error',
+      header: this.languageService.translate('COMMON.ERROR'),
       message,
-      buttons: ['Aceptar']
+      buttons: [this.languageService.translate('COMMON.ACCEPT')]
     });
     await alert.present();
+  }
+
+  getCategoryLabel(category: string): string {
+    switch (category) {
+      case 'Electrónica': return this.languageService.translate('CATEGORIES.ELECTRONICS');
+      case 'Accesorios': return this.languageService.translate('CATEGORIES.ACCESSORIES');
+      case 'Mobiliario': return this.languageService.translate('CATEGORIES.FURNITURE');
+      case 'Herramientas': return this.languageService.translate('CATEGORIES.TOOLS');
+      case 'Otros': return this.languageService.translate('CATEGORIES.OTHER');
+      default: return category;
+    }
   }
 }

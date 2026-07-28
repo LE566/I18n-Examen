@@ -13,13 +13,28 @@ import {
   IonSearchbar,
   IonButtons,
   IonBackButton,
+  IonChip,
+  IonLabel,
   AlertController,
   ToastController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, createOutline, trashOutline, searchOutline, cubeOutline, filterOutline, checkmarkCircleOutline, warningOutline, alertCircleOutline } from 'ionicons/icons';
+import {
+  addOutline,
+  createOutline,
+  trashOutline,
+  searchOutline,
+  cubeOutline,
+  filterOutline,
+  checkmarkCircleOutline,
+  warningOutline,
+  alertCircleOutline,
+  globeOutline
+} from 'ionicons/icons';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
+import { LanguageService } from '../../services/language.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-product-list',
@@ -39,7 +54,10 @@ import { ProductService } from '../../services/product.service';
     IonFabButton,
     IonSearchbar,
     IonButtons,
-    IonBackButton
+    IonBackButton,
+    IonChip,
+    IonLabel,
+    TranslatePipe
   ]
 })
 export class ProductListPage implements OnInit {
@@ -49,6 +67,7 @@ export class ProductListPage implements OnInit {
 
   constructor(
     private productService: ProductService,
+    public languageService: LanguageService,
     private alertController: AlertController,
     private toastController: ToastController
   ) {
@@ -61,7 +80,8 @@ export class ProductListPage implements OnInit {
       filterOutline,
       checkmarkCircleOutline,
       warningOutline,
-      alertCircleOutline
+      alertCircleOutline,
+      globeOutline
     });
   }
 
@@ -77,6 +97,14 @@ export class ProductListPage implements OnInit {
     this.products = this.productService.getProducts();
   }
 
+  toggleLanguage() {
+    this.languageService.toggleLanguage();
+  }
+
+  get currentLanguage(): string {
+    return this.languageService.currentLang;
+  }
+
   get filteredProducts(): Product[] {
     return this.products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
@@ -88,15 +116,15 @@ export class ProductListPage implements OnInit {
 
   async confirmDelete(product: Product) {
     const alert = await this.alertController.create({
-      header: 'Confirmar eliminación',
-      message: `¿Estás seguro de que deseas eliminar "${product.name}"?`,
+      header: this.languageService.translate('COMMON.CONFIRM_DELETE_TITLE'),
+      message: this.languageService.translate('COMMON.CONFIRM_DELETE_MSG', { name: product.name }),
       buttons: [
         {
-          text: 'Cancelar',
+          text: this.languageService.translate('COMMON.CANCEL'),
           role: 'cancel'
         },
         {
-          text: 'Eliminar',
+          text: this.languageService.translate('COMMON.DELETE'),
           role: 'destructive',
           handler: () => {
             if (product.id) {
@@ -113,7 +141,7 @@ export class ProductListPage implements OnInit {
   deleteProduct(id: string) {
     this.productService.deleteProduct(id);
     this.loadProducts();
-    this.showToast('Producto eliminado del inventario.');
+    this.showToast(this.languageService.translate('COMMON.DELETE_SUCCESS'));
   }
 
   private async showToast(message: string) {
@@ -137,10 +165,21 @@ export class ProductListPage implements OnInit {
 
   getStatusLabel(status: string): string {
     switch (status) {
-      case 'available': return 'Disponible';
-      case 'low_stock': return 'Poco Stock';
-      case 'out_of_stock': return 'Agotado';
+      case 'available': return this.languageService.translate('STATUS.AVAILABLE');
+      case 'low_stock': return this.languageService.translate('STATUS.LOW_STOCK');
+      case 'out_of_stock': return this.languageService.translate('STATUS.OUT_OF_STOCK');
       default: return status;
+    }
+  }
+
+  getCategoryLabel(category: string): string {
+    switch (category) {
+      case 'Electrónica': return this.languageService.translate('CATEGORIES.ELECTRONICS');
+      case 'Accesorios': return this.languageService.translate('CATEGORIES.ACCESSORIES');
+      case 'Mobiliario': return this.languageService.translate('CATEGORIES.FURNITURE');
+      case 'Herramientas': return this.languageService.translate('CATEGORIES.TOOLS');
+      case 'Otros': return this.languageService.translate('CATEGORIES.OTHER');
+      default: return category;
     }
   }
 }

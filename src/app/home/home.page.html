@@ -4,7 +4,7 @@
       <div class="brand-icon">
         <ion-icon name="cube-outline"></ion-icon>
       </div>
-      <span class="brand-title">StockFlow</span>
+      <span class="brand-title">{{ 'APP.NAME' | translate }}</span>
     </div>
 
     <ion-chip slot="end" class="lang-chip" (click)="toggleLanguage()">
@@ -19,31 +19,31 @@
     <!-- Hero Banner Card -->
     <div class="hero-card">
       <div class="hero-badge">
-        <ion-icon name="sparkles-outline"></ion-icon> Sistema de Inventario
+        <ion-icon name="sparkles-outline"></ion-icon> {{ 'HOME.HERO_BADGE' | translate }}
       </div>
-      <h1>Control de Productos & Stock</h1>
-      <p>Administra tu catálogo de forma ágil, organizada e intuitiva.</p>
+      <h1>{{ 'HOME.HERO_TITLE' | translate }}</h1>
+      <p>{{ 'HOME.HERO_DESC' | translate }}</p>
     </div>
 
     <!-- Quick Stats Bar -->
     <div class="stats-row">
       <div class="stat-box">
         <span class="stat-value">24</span>
-        <span class="stat-title">Productos</span>
+        <span class="stat-title">{{ 'HOME.STATS_PRODUCTS' | translate }}</span>
       </div>
       <div class="stat-box">
         <span class="stat-value">4</span>
-        <span class="stat-title">Categorías</span>
+        <span class="stat-title">{{ 'HOME.STATS_CATEGORIES' | translate }}</span>
       </div>
       <div class="stat-box warning">
         <span class="stat-value">2</span>
-        <span class="stat-title">Poco Stock</span>
+        <span class="stat-title">{{ 'HOME.STATS_LOW_STOCK' | translate }}</span>
       </div>
     </div>
 
     <!-- Navigation Cards -->
     <div class="section-header">
-      <h2>Módulos del Sistema</h2>
+      <h2>{{ 'HOME.MODULES_TITLE' | translate }}</h2>
     </div>
 
     <div class="nav-grid">
@@ -52,8 +52,8 @@
           <ion-icon name="list-outline"></ion-icon>
         </div>
         <div class="card-details">
-          <h3>Catálogo de Productos</h3>
-          <p>Explora la lista completa, realiza búsquedas y filtra por categoría.</p>
+          <h3>{{ 'HOME.CATALOG_TITLE' | translate }}</h3>
+          <p>{{ 'HOME.CATALOG_DESC' | translate }}</p>
         </div>
         <div class="card-arrow">
           <ion-icon name="arrow-forward-outline"></ion-icon>
@@ -65,8 +65,8 @@
           <ion-icon name="add-circle-outline"></ion-icon>
         </div>
         <div class="card-details">
-          <h3>Registrar Producto</h3>
-          <p>Añade nuevos elementos al inventario ingresando sus datos.</p>
+          <h3>{{ 'HOME.ADD_TITLE' | translate }}</h3>
+          <p>{{ 'HOME.ADD_DESC' | translate }}</p>
         </div>
         <div class="card-arrow">
           <ion-icon name="arrow-forward-outline"></ion-icon>

@@ -3,7 +3,12 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Catálogo de Productos</ion-title>
+    <ion-title>{{ 'PRODUCT_LIST.TITLE' | translate }}</ion-title>
+
+    <ion-chip slot="end" class="lang-chip" (click)="toggleLanguage()">
+      <ion-icon name="globe-outline"></ion-icon>
+      <ion-label>{{ currentLanguage }}</ion-label>
+    </ion-chip>
   </ion-toolbar>
 </ion-header>
 
@@ -14,7 +19,7 @@
       <div class="search-box">
         <ion-searchbar 
           [(ngModel)]="searchTerm" 
-          placeholder="Buscar por nombre o categoría..." 
+          [placeholder]="'COMMON.SEARCH_PLACEHOLDER' | translate" 
           animated="true"
           show-clear-button="always"
           class="designer-searchbar">
@@ -22,23 +27,23 @@
       </div>
 
       <div class="category-pills">
-        <button [class.active]="selectedCategory === 'all'" (click)="selectedCategory = 'all'">Todos</button>
-        <button [class.active]="selectedCategory === 'Electrónica'" (click)="selectedCategory = 'Electrónica'">Electrónica</button>
-        <button [class.active]="selectedCategory === 'Accesorios'" (click)="selectedCategory = 'Accesorios'">Accesorios</button>
-        <button [class.active]="selectedCategory === 'Mobiliario'" (click)="selectedCategory = 'Mobiliario'">Mobiliario</button>
+        <button [class.active]="selectedCategory === 'all'" (click)="selectedCategory = 'all'">{{ 'COMMON.ALL' | translate }}</button>
+        <button [class.active]="selectedCategory === 'Electrónica'" (click)="selectedCategory = 'Electrónica'">{{ 'CATEGORIES.ELECTRONICS' | translate }}</button>
+        <button [class.active]="selectedCategory === 'Accesorios'" (click)="selectedCategory = 'Accesorios'">{{ 'CATEGORIES.ACCESSORIES' | translate }}</button>
+        <button [class.active]="selectedCategory === 'Mobiliario'" (click)="selectedCategory = 'Mobiliario'">{{ 'CATEGORIES.FURNITURE' | translate }}</button>
       </div>
     </div>
 
     <!-- Results count bar -->
     <div class="results-bar">
-      <span><strong>{{ filteredProducts.length }}</strong> {{ filteredProducts.length === 1 ? 'producto en inventario' : 'productos en inventario' }}</span>
+      <span><strong>{{ filteredProducts.length }}</strong> {{ (filteredProducts.length === 1 ? 'PRODUCT_LIST.COUNT_SINGLE' : 'PRODUCT_LIST.COUNT_MULTIPLE') | translate }}</span>
     </div>
 
     <!-- Product Cards Grid -->
     <div class="products-grid">
       <div *ngFor="let product of filteredProducts" class="product-card">
         <div class="card-header">
-          <span class="category-badge">{{ product.category }}</span>
+          <span class="category-badge">{{ getCategoryLabel(product.category) }}</span>
           <span class="status-pill" [ngClass]="product.status">
             {{ getStatusLabel(product.status) }}
           </span>
@@ -51,20 +56,20 @@
 
         <div class="card-footer">
           <div class="price-box">
-            <span class="box-label">Precio</span>
+            <span class="box-label">{{ 'PRODUCT_LIST.PRICE_LABEL' | translate }}</span>
             <span class="price-value">${{ product.price | number:'1.2-2' }}</span>
           </div>
 
           <div class="stock-box">
-            <span class="box-label">Stock</span>
-            <span class="stock-value" [class.low]="product.stock < 5">{{ product.stock }} un.</span>
+            <span class="box-label">{{ 'PRODUCT_LIST.STOCK_LABEL' | translate }}</span>
+            <span class="stock-value" [class.low]="product.stock < 5">{{ product.stock }} {{ 'PRODUCT_LIST.UNIT' | translate }}</span>
           </div>
 
           <div class="card-actions">
-            <button class="action-btn edit" [routerLink]="['/product-form', product.id]" title="Editar">
+            <button class="action-btn edit" [routerLink]="['/product-form', product.id]" [title]="'COMMON.EDIT' | translate">
               <ion-icon name="create-outline"></ion-icon>
             </button>
-            <button class="action-btn delete" (click)="confirmDelete(product)" title="Eliminar">
+            <button class="action-btn delete" (click)="confirmDelete(product)" [title]="'COMMON.DELETE' | translate">
               <ion-icon name="trash-outline"></ion-icon>
             </button>
           </div>
@@ -74,8 +79,8 @@
       <!-- Empty State -->
       <div *ngIf="filteredProducts.length === 0" class="empty-state">
         <ion-icon name="search-outline" class="empty-icon"></ion-icon>
-        <h3>No hay coincidencias</h3>
-        <p>Prueba con otra palabra clave o agrega un nuevo producto.</p>
+        <h3>{{ 'PRODUCT_LIST.EMPTY_TITLE' | translate }}</h3>
+        <p>{{ 'PRODUCT_LIST.EMPTY_DESC' | translate }}</p>
       </div>
     </div>
   </div>

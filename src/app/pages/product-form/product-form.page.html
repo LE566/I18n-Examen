@@ -3,7 +3,12 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/products" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ isEditMode ? 'Editar Producto' : 'Nuevo Producto' }}</ion-title>
+    <ion-title>{{ (isEditMode ? 'PRODUCT_FORM.TITLE_EDIT' : 'PRODUCT_FORM.TITLE_NEW') | translate }}</ion-title>
+
+    <ion-chip slot="end" class="lang-chip" (click)="toggleLanguage()">
+      <ion-icon name="globe-outline"></ion-icon>
+      <ion-label>{{ currentLanguage }}</ion-label>
+    </ion-chip>
   </ion-toolbar>
 </ion-header>
 
@@ -14,8 +19,8 @@
         <div class="icon-circle">
           <ion-icon name="cube-outline"></ion-icon>
         </div>
-        <h2>{{ isEditMode ? 'Modificar Registro' : 'Registrar Producto' }}</h2>
-        <p>Ingresa la información requerida para la gestión del catálogo.</p>
+        <h2>{{ (isEditMode ? 'PRODUCT_FORM.HEADER_EDIT' : 'PRODUCT_FORM.HEADER_NEW') | translate }}</h2>
+        <p>{{ 'PRODUCT_FORM.HEADER_SUBTITLE' | translate }}</p>
       </div>
 
       <form (ngSubmit)="onSubmit(productForm)" #productForm="ngForm" novalidate>
@@ -24,10 +29,10 @@
           <div class="form-field">
             <ion-item lines="none" class="designer-input" [class.invalid-field]="nameInput.invalid && (nameInput.dirty || nameInput.touched)">
               <ion-input
-                label="Nombre del producto"
+                [label]="'PRODUCT_FORM.NAME_LABEL' | translate"
                 labelPlacement="stacked"
                 type="text"
-                placeholder="Ej. Laptop Pro 15''"
+                [placeholder]="'PRODUCT_FORM.NAME_PLACEHOLDER' | translate"
                 [(ngModel)]="product.name"
                 name="name"
                 #nameInput="ngModel"
@@ -35,7 +40,7 @@
               </ion-input>
             </ion-item>
             <span *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)" class="error-message">
-              El nombre del producto es obligatorio.
+              {{ 'VALIDATIONS.NAME_REQUIRED' | translate }}
             </span>
           </div>
 
@@ -43,20 +48,20 @@
           <div class="form-field">
             <ion-item lines="none" class="designer-input" [class.invalid-field]="categoryInput.invalid && (categoryInput.dirty || categoryInput.touched)">
               <ion-select
-                label="Categoría"
+                [label]="'PRODUCT_FORM.CATEGORY_LABEL' | translate"
                 labelPlacement="stacked"
-                placeholder="Selecciona una opción"
+                [placeholder]="'PRODUCT_FORM.CATEGORY_PLACEHOLDER' | translate"
                 [(ngModel)]="product.category"
                 name="category"
                 #categoryInput="ngModel"
                 required>
                 <ion-select-option *ngFor="let cat of categories" [value]="cat">
-                  {{ cat }}
+                  {{ getCategoryLabel(cat) }}
                 </ion-select-option>
               </ion-select>
             </ion-item>
             <span *ngIf="categoryInput.invalid && (categoryInput.dirty || categoryInput.touched)" class="error-message">
-              La categoría es obligatoria.
+              {{ 'VALIDATIONS.CATEGORY_REQUIRED' | translate }}
             </span>
           </div>
 
@@ -66,7 +71,7 @@
             <div class="form-field col">
               <ion-item lines="none" class="designer-input" [class.invalid-field]="priceInput.invalid && (priceInput.dirty || priceInput.touched)">
                 <ion-input
-                  label="Precio ($ USD)"
+                  [label]="'PRODUCT_FORM.PRICE_LABEL' | translate"
                   labelPlacement="stacked"
                   type="number"
                   step="0.01"
@@ -79,7 +84,7 @@
                 </ion-input>
               </ion-item>
               <span *ngIf="priceInput.invalid && (priceInput.dirty || priceInput.touched)" class="error-message">
-                El precio debe ser mayor a 0.
+                {{ 'VALIDATIONS.PRICE_INVALID' | translate }}
               </span>
             </div>
 
@@ -87,7 +92,7 @@
             <div class="form-field col">
               <ion-item lines="none" class="designer-input" [class.invalid-field]="stockInput.invalid && (stockInput.dirty || stockInput.touched)">
                 <ion-input
-                  label="Stock (Unidades)"
+                  [label]="'PRODUCT_FORM.STOCK_LABEL' | translate"
                   labelPlacement="stacked"
                   type="number"
                   min="0"
@@ -99,7 +104,7 @@
                 </ion-input>
               </ion-item>
               <span *ngIf="stockInput.invalid && (stockInput.dirty || stockInput.touched)" class="error-message">
-                El stock no puede ser negativo.
+                {{ 'VALIDATIONS.STOCK_INVALID' | translate }}
               </span>
             </div>
           </div>
@@ -108,19 +113,19 @@
           <div class="form-field">
             <ion-item lines="none" class="designer-input" [class.invalid-field]="statusInput.invalid && (statusInput.dirty || statusInput.touched)">
               <ion-select
-                label="Estado de disponibilidad"
+                [label]="'PRODUCT_FORM.STATUS_LABEL' | translate"
                 labelPlacement="stacked"
                 [(ngModel)]="product.status"
                 name="status"
                 #statusInput="ngModel"
                 required>
-                <ion-select-option value="available">Disponible</ion-select-option>
-                <ion-select-option value="low_stock">Poco Stock</ion-select-option>
-                <ion-select-option value="out_of_stock">Agotado</ion-select-option>
+                <ion-select-option value="available">{{ 'STATUS.AVAILABLE' | translate }}</ion-select-option>
+                <ion-select-option value="low_stock">{{ 'STATUS.LOW_STOCK' | translate }}</ion-select-option>
+                <ion-select-option value="out_of_stock">{{ 'STATUS.OUT_OF_STOCK' | translate }}</ion-select-option>
               </ion-select>
             </ion-item>
             <span *ngIf="statusInput.invalid && (statusInput.dirty || statusInput.touched)" class="error-message">
-              El estado es obligatorio.
+              {{ 'VALIDATIONS.STATUS_REQUIRED' | translate }}
             </span>
           </div>
 
@@ -128,9 +133,9 @@
           <div class="form-field">
             <ion-item lines="none" class="designer-input">
               <ion-textarea
-                label="Descripción detallada"
+                [label]="'PRODUCT_FORM.DESCRIPTION_LABEL' | translate"
                 labelPlacement="stacked"
-                placeholder="Características opcionales..."
+                [placeholder]="'PRODUCT_FORM.DESCRIPTION_PLACEHOLDER' | translate"
                 rows="3"
                 [(ngModel)]="product.description"
                 name="description">
@@ -142,11 +147,11 @@
         <div class="form-actions ion-margin-top">
           <ion-button type="submit" expand="block" class="primary-btn" size="large">
             <ion-icon name="save-outline" slot="start"></ion-icon>
-            {{ isEditMode ? 'Actualizar Producto' : 'Guardar Producto' }}
+            {{ (isEditMode ? 'PRODUCT_FORM.BTN_UPDATE' : 'PRODUCT_FORM.BTN_SAVE') | translate }}
           </ion-button>
 
           <ion-button expand="block" fill="clear" color="medium" (click)="onCancel()">
-            Cancelar
+            {{ 'PRODUCT_FORM.BTN_CANCEL' | translate }}
           </ion-button>
         </div>
       </form>

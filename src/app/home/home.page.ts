@@ -18,6 +18,8 @@ import {
   addCircleOutline,
   arrowForwardOutline
 } from 'ionicons/icons';
+import { LanguageService } from '../services/language.service';
+import { TranslatePipe } from '../pipes/translate.pipe';
 
 @Component({
   selector: 'app-home',
@@ -32,13 +34,12 @@ import {
     IonContent,
     IonIcon,
     IonChip,
-    IonLabel
+    IonLabel,
+    TranslatePipe
   ]
 })
 export class HomePage {
-  currentLanguage: string = 'ES';
-
-  constructor() {
+  constructor(public languageService: LanguageService) {
     addIcons({
       cubeOutline,
       globeOutline,
@@ -50,6 +51,10 @@ export class HomePage {
   }
 
   toggleLanguage() {
-    this.currentLanguage = this.currentLanguage === 'ES' ? 'EN' : 'ES';
+    this.languageService.toggleLanguage();
+  }
+
+  get currentLanguage(): string {
+    return this.languageService.currentLang;
   }
 }
