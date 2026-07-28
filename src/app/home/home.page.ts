@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
-  IonTitle,
   IonContent,
   IonIcon,
   IonChip,
@@ -30,7 +29,6 @@ import {
     RouterLink,
     IonHeader,
     IonToolbar,
-    IonTitle,
     IonContent,
     IonIcon,
     IonChip,

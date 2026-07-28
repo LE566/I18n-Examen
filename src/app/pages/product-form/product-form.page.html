@@ -145,7 +145,7 @@
             {{ isEditMode ? 'Actualizar Producto' : 'Guardar Producto' }}
           </ion-button>
 
-          <ion-button expand="block" fill="clear" color="medium" routerLink="/products">
+          <ion-button expand="block" fill="clear" color="medium" (click)="onCancel()">
             Cancelar
           </ion-button>
         </div>

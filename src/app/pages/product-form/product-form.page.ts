@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -16,11 +16,9 @@ import {
   IonIcon,
   IonButtons,
   IonBackButton,
-  IonCard,
-  IonCardContent,
-  IonList,
   AlertController,
-  ToastController
+  ToastController,
+  NavController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { saveOutline, arrowBackOutline, checkmarkCircleOutline, alertCircleOutline, cubeOutline } from 'ionicons/icons';
@@ -35,7 +33,6 @@ import { ProductService } from '../../services/product.service';
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -48,10 +45,7 @@ import { ProductService } from '../../services/product.service';
     IonButton,
     IonIcon,
     IonButtons,
-    IonBackButton,
-    IonCard,
-    IonCardContent,
-    IonList
+    IonBackButton
   ]
 })
 export class ProductFormPage implements OnInit {
@@ -72,6 +66,7 @@ export class ProductFormPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private navController: NavController,
     private productService: ProductService,
     private toastController: ToastController,
     private alertController: AlertController
@@ -94,7 +89,7 @@ export class ProductFormPage implements OnInit {
         this.product = { ...existingProduct };
       } else {
         this.showErrorAlert('El producto no existe en el catálogo.');
-        this.router.navigate(['/products']);
+        this.navController.navigateBack('/products');
       }
     }
   }
@@ -114,10 +109,14 @@ export class ProductFormPage implements OnInit {
           ? 'Producto actualizado con éxito.' 
           : 'Producto guardado con éxito.'
       );
-      this.router.navigate(['/products']);
+      this.navController.navigateBack('/products');
     } catch (error) {
       await this.showErrorAlert('Ocurrió un error al intentar guardar el producto.');
     }
+  }
+
+  onCancel() {
+    this.navController.navigateBack('/products');
   }
 
   private async showSuccessToast(message: string) {

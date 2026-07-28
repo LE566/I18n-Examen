@@ -7,19 +7,10 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
-  IonLabel,
-  IonButton,
   IonIcon,
   IonFab,
   IonFabButton,
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
-  IonCardContent,
-  IonBadge,
   IonSearchbar,
-  IonChip,
   IonButtons,
   IonBackButton,
   AlertController,
@@ -43,19 +34,10 @@ import { ProductService } from '../../services/product.service';
     IonToolbar,
     IonTitle,
     IonContent,
-    IonLabel,
-    IonButton,
     IonIcon,
     IonFab,
     IonFabButton,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardSubtitle,
-    IonCardContent,
-    IonBadge,
     IonSearchbar,
-    IonChip,
     IonButtons,
     IonBackButton
   ]
@@ -95,23 +77,31 @@ export class ProductListPage implements OnInit {
     this.products = this.productService.getProducts();
   }
 
-  async confirmDelete(product: Product) {
-    if (!product.id) return;
+  get filteredProducts(): Product[] {
+    return this.products.filter(product => {
+      const matchesSearch = product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                            product.category.toLowerCase().includes(this.searchTerm.toLowerCase());
+      const matchesCategory = this.selectedCategory === 'all' || product.category === this.selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }
 
+  async confirmDelete(product: Product) {
     const alert = await this.alertController.create({
       header: 'Confirmar eliminación',
-      message: `¿Estás seguro de que deseas eliminar el producto "${product.name}"?`,
+      message: `¿Estás seguro de que deseas eliminar "${product.name}"?`,
       buttons: [
         {
           text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'secondary'
+          role: 'cancel'
         },
         {
           text: 'Eliminar',
           role: 'destructive',
           handler: () => {
-            this.deleteProduct(product.id!);
+            if (product.id) {
+              this.deleteProduct(product.id);
+            }
           }
         }
       ]
@@ -120,35 +110,20 @@ export class ProductListPage implements OnInit {
     await alert.present();
   }
 
-  async deleteProduct(id: string) {
-    try {
-      this.productService.deleteProduct(id);
-      this.loadProducts();
-
-      const toast = await this.toastController.create({
-        message: 'Producto eliminado con éxito.',
-        duration: 2000,
-        color: 'success',
-        position: 'bottom'
-      });
-      await toast.present();
-    } catch (error) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'Ocurrió un error al intentar eliminar el producto.',
-        buttons: ['Aceptar']
-      });
-      await alert.present();
-    }
+  deleteProduct(id: string) {
+    this.productService.deleteProduct(id);
+    this.loadProducts();
+    this.showToast('Producto eliminado del inventario.');
   }
 
-  get filteredProducts(): Product[] {
-    return this.products.filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                            product.category.toLowerCase().includes(this.searchTerm.toLowerCase());
-      const matchesCategory = this.selectedCategory === 'all' || product.category === this.selectedCategory;
-      return matchesSearch && matchesCategory;
+  private async showToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color: 'danger',
+      position: 'bottom'
     });
+    await toast.present();
   }
 
   getStatusBadgeColor(status: string): string {
