@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - LEBranch
   workflow_dispatch:
 
 permissions:
